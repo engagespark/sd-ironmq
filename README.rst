@@ -4,7 +4,7 @@
 
 A plugin for the `Server Density <https://engagespark.serverdensity.io>`_ agent that monitors `IronMQ queues <https://www.iron.io/>`_ **using API version 3**.
 
-Read the `official docs on plugins <https://support.serverdensity.com/hc/en-us/sections/200275866-Plugins>`_ for details how to write one. Or find more, `official plugins <https://github.com/serverdensity/sd-agent-plugins>`_.
+Find the `source on GitHub <https://github.com/engagespark/sd-ironmq/>`_. For details how to write one, read the `official docs on plugins <https://support.serverdensity.com/hc/en-us/sections/200275866-Plugins>`_. Or find more, `official plugins <https://github.com/serverdensity/sd-agent-plugins>`_.
 
 Features
 ========
@@ -125,4 +125,4 @@ Release a new version
 License
 =======
 
-MIT, see LICENSE file, Copyright engageSPARK
+MIT, see `LICENSE <https://github.com/engagespark/sd-ironmq/blob/master/LICENSE>`_ file, Copyright `engageSPARK <https://www.engagespark.com>`_
