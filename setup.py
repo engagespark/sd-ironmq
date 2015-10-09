@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="sd-ironmq",
-    version="0.1.1",
+    version="0.1.2",
     description="Server Density plugin to monitor IronMQs",
     long_description=open('README.rst').read() + '\n\n',
     author="Murat Knecht",
