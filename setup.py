@@ -4,7 +4,7 @@ setup(
     name="sd-ironmq",
     version="0.1.0",
     description="Server Density plugin to monitor IronMQs",
-    long_description=open('README.md').read() + '\n\n',
+    long_description=open('README.rst').read() + '\n\n',
     author="Murat Knecht",
     author_email="muratk@engagespark.com",
     url="https://github.com/engagespark/sd-ironmq",
