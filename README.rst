@@ -24,6 +24,13 @@ Example for metric keys::
 How to use
 ==========
 
+Install via curl (recommended)
+------------------------------
+
+`curl` the latest version from GitHub directly into your Plugin directory::
+
+    curl https://raw.githubusercontent.com/engagespark/sd-ironmq/master/IronMQ.py > /usr/bin/sd-agent/plugins/IronMQ.py
+
 Install via PyPI or …
 ---------------------
 
@@ -33,12 +40,7 @@ Get it from pypi, installing it somewhere::
 
 Symlink it to your plugin directory, on Debian/Ubuntu by default: `/usr/bin/sd-agent/plugins`
 
-Install via curl
-----------------
-
-`curl` the latest version from GitHub directly into your Plugin directory::
-
-    curl https://raw.githubusercontent.com/engagespark/sd-ironmq/master/IronMQ.py > /usr/bin/sd-agent/plugins/IronMQ.py
+**Note:** This plugin adheres to the convention of other, official plugins, to just put the product name in camelcase in the classname and therofer filename. This means, if you install this via PyPI, there may be conflicts with other packages that named their project the same. This becomes especially true in case-insensitive file systems. Therefore, the recommended procedure at the moment is to curl the file (see above).
 
 Configure
 ---------
