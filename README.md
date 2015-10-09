@@ -18,13 +18,19 @@ Example for metric keys:
 
 ## How to use
 
-### Install
+### Install via PyPI or …
 
-Get it from pypi, installing it somewhere
+et it from pypi, installing it somewhere
 
     pip install sd-ironmq
 
 Symlink it to your plugin directory, on Debian/Ubuntu by default: `/usr/bin/sd-agent/plugins`
+
+### Install by curl-ing
+
+    curl https://raw.githubusercontent.com/engagespark/sd-ironmq/master/IronMQ.py > /usr/bin/sd-agent/plugins/IronMQ.py
+
+Just copy the file to your
 
 ### Configure
 
