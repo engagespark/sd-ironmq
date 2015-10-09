@@ -2,7 +2,7 @@
  sd-ironmq
 ===========
 
-A plugin for the `Server Density <https://engagespark.serverdensity.io>`_ agent that monitors `IronMQ queues <https://www.iron.io/>`_.
+A plugin for the `Server Density <https://engagespark.serverdensity.io>`_ agent that monitors `IronMQ queues <https://www.iron.io/>`_ **using API version 3**.
 
 Read the `official docs on plugins <https://support.serverdensity.com/hc/en-us/sections/200275866-Plugins>`_ for details how to write one. Or find more, `official plugins <https://github.com/serverdensity/sd-agent-plugins>`_.
 
@@ -101,11 +101,11 @@ Releasing
 Prepare
 -------
 
-#. Install [twine](https://github.com/pypa/twine) and [wheel](https://pypi.python.org/pypi/wheel)::
+#. Install `twine <https://github.com/pypa/twine>`_ and `wheel <https://pypi.python.org/pypi/wheel>`_::
 
     $ pip install -r requirements_dev.txt
 
-#. Setup your [.pypirc](https://docs.python.org/2/distutils/packageindex.html#pypirc).
+#. Setup your `.pypirc <https://docs.python.org/2/distutils/packageindex.html#pypirc>`_.
 
 Release a new version
 ---------------------
