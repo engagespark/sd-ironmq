@@ -4,6 +4,18 @@ A plugin for [Server Density](https://engagespark.serverdensity.io) that monitor
 
 Read the [official docs on plugins](https://support.serverdensity.com/hc/en-us/sections/200275866-Plugins) for details how to write one. Or find more, [official plugins](https://github.com/serverdensity/sd-agent-plugins).
 
+## Features
+
+* Given one or more projects, the plugin monitors all queues of the given size.
+* Recorded metrics:
+  * size (key: <projectid/-name>:<queuename>:size)
+  * total_messages (key: <projectid/-name>:<queuename>:size)
+
+Example for metric keys:
+
+    billingproject:invoicequeue:size
+    billingproject:invoicequeue:total_messages
+
 ## How to use
 
 ### Install
@@ -29,6 +41,28 @@ Add this section to your `/etc/sd-agent/config.cfg`:
 On Debian/Ubuntu:
 
     service sd-agent restart
+
+## Other configuration options
+
+### Metric Keys: Use Project Names instead of IDs
+
+Let's say you configured the queues of your billing project to be monitored:
+
+    project_ids=2342934839ai239ai89i
+
+For a queue `invoices`, the metric keys would look like so:
+
+    2342934839ai239ai89i:invoices:size
+    2342934839ai239ai89i:invoices:total_messages
+
+That's not beautiful, nor understandable. Also it exposes IronMQ internals unnecessarily. Configure a name for the project ID like so:
+
+    2342934839ai239ai89i.name=billing
+
+The name is then used in the keys:
+
+    billing:invoices:size
+    billing:invoices:total_messages
 
 ## Test locally
 

@@ -12,9 +12,9 @@ PLUGIN_NAME = 'IronMQ Plugin'
 CONFIG_SECTION = "IronMQ"
 CONFIG_PARAMS = [
     # ('config key', 'name', 'required'),
+    ('host', 'Host', True),
     ('project_ids', 'ProjectIDs', True),
     ('token', 'Token', True),
-    ('host', 'Host', True),
 ]
 
 
@@ -29,24 +29,25 @@ class IronMQ(object):
 
         # get config options
         try:
-            self._read_config(raw_config)
+            self._set_agent_config(raw_config)
         except ConfigError:
-            # Just don't create any clients.
             self.log.exception("Could not read config, doing nothing.")
-            self.agent_config['ProjectIDs'] = ""
+            self.iron_clients = []
+            return
 
+        self.log.info("Querying queues for {}".format(
+            ", ".join([p["name"] for p in self.agent_config.get('Projects')])))
         self.iron_clients = [
             iron_mq.IronMQ(
                 api_version=3,
                 host=self.agent_config['Host'],
-                name=project_id,
+                name=project['name'],
                 port=443,
-                project_id=project_id,
+                project_id=project['id'],
                 protocol="https",
                 token=self.agent_config.get('Token'),
             )
-            for project_id
-            in self.agent_config.get('ProjectIDs').split(" ")
+            for project in self.agent_config.get('Projects')
         ]
 
     def run(self):
@@ -60,7 +61,11 @@ class IronMQ(object):
                 )
         return stats
 
-    def _read_config(self, raw_config):
+    def _set_agent_config(self, raw_config):
+        self._copy_validated_config(raw_config)
+        self._set_projects(raw_config)
+
+    def _copy_validated_config(self, raw_config):
         if raw_config.get(CONFIG_SECTION, False):
             for key, name, required in CONFIG_PARAMS:
                 if key not in raw_config[CONFIG_SECTION] and required:
@@ -74,29 +79,52 @@ class IronMQ(object):
                 '{}: IronMQ config section missing: [{}]'.format(
                     PLUGIN_NAME, CONFIG_SECTION))
 
+    def _set_projects(self, raw_config):
+        project_ids_string = self.agent_config.get('ProjectIDs')
+        self.agent_config['Projects'] = [
+            {
+                "id": project_id,
+                "name": raw_config[CONFIG_SECTION].get(
+                    u"{}.name".format(project_id), project_id)
+            }
+            for project_id in (
+                [i.strip() for i in project_ids_string.split(" ")]
+                if project_ids_string
+                else []
+            )
+        ]
+
     def _get_data_for_client(self, client):
         stats = {}
         for queue_name in client.getQueues():
-            stats.update(**self._get_data_for_queue(client, queue_name))
+            results = self._get_data_for_queue(client, queue_name)
+            self.log.debug(u"Got result: {}".format(results))
+            stats.update(**results)
         return stats
 
     def _get_data_for_queue(self, client, queue_name):
         details = client.getQueueDetails(queue_name)
+        self.log.debug(
+            u"Querying information for project '{}'s queue '{}'".format(
+                client.name, queue_name))
         return {
-            "{}:{}:size".format(
+            u":".join([
                 client.name,
                 queue_name,
-            ): details['size'],
-            "{}:{}:total_messages".format(
+                "size",
+            ]): details['size'],
+            u":".join([
                 client.name,
                 queue_name,
-            ): details['total_messages'],
+                "total_messages",
+            ]): details['total_messages'],
         }
 
 
 if __name__ == '__main__':
     import logging
     logging.basicConfig()
+    logging.getLogger().setLevel(logging.DEBUG)
     import pprint
 
     import ConfigParser
